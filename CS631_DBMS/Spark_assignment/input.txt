@@ -1,0 +1,229 @@
+package sparkdemo;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaRDDLike;
+import org.apache.spark.api.java.function.ForeachFunction;
+import org.apache.spark.api.java.function.MapFunction;
+import org.apache.spark.api.java.function.VoidFunction;
+import org.apache.spark.sql.Column;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Encoders;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.RowFactory;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder;
+import org.apache.spark.sql.catalyst.encoders.RowEncoder;
+import org.apache.spark.sql.catalyst.expressions.DenseRank;
+import org.apache.spark.sql.types.BinaryType;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.StructType;
+import org.apache.spark.sql.expressions.Window;
+import org.apache.spark.sql.expressions.WindowSpec;
+import org.apache.spark.sql.functions;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
+
+
+import java.io.*;  
+import java.util.Scanner;  
+
+
+
+/**
+ * This class uses Dataset APIs of spark to count number of events per category1-category2
+ * */
+
+public class category12count {
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+
+		//ques1();
+		
+		ques3();
+		
+		}  
+	
+	 static void  ques3()
+	  
+	  {
+		  
+		// Input dir - should contain all input json files
+			String inputPath="history_english.json"; //Use absolute paths
+			// Ouput dir - this directory will be created by spark. Delete this directory between each run
+			String outputPath="output";   //Use absolute paths
+			
+
+			Logger.getLogger("org").setLevel(Level.OFF);
+			Logger.getLogger("akka").setLevel(Level.OFF);
+
+			StructType obj = new StructType();
+			obj = obj.add("date", DataTypes.StringType, true); // false => not nullable
+			obj = obj.add("category2", DataTypes.StringType, true); // false => not nullable
+			ExpressionEncoder<Row> tupleRowEncoder = RowEncoder.apply(obj);
+
+			SparkSession sparkSession = SparkSession.builder()
+					.appName("Entity Count")		//Name of application
+					.master("local")								//Run the application on local node
+					.config("spark.sql.shuffle.partitions","2")		//Number of partitions
+					.getOrCreate();
+
+			//String str2="Pilgrims";
+			//String str= "Asclepieion" ;
+			
+			
+			// Read multi-line JSON from input files to dataset
+			
+			//Dataset<Row> ID2 = ID.select(lit("Greece").as("lit_value1"),col("category1"),col("category2"));
+
+			    int flag=1;
+			
+				
+				Dataset<Row> inputDataset=sparkSession.read().option("multiLine", true).json(inputPath);
+				Dataset<Row> ID = inputDataset.filter(inputDataset.col("granularity").contains("year")); 
+				
+			//Dataset<Row> ID2 = ID.filter(inputDataset.col("date").contains("1945")); 
+			
+				Dataset<Row> ds = ID.map(new MapFunction<Row,Row>(){
+					public Row call(Row row) throws Exception{
+						String e_date =((String)row.getAs("date"));
+						String count="1";
+						return RowFactory.create(e_date,count);
+					}
+				}, tupleRowEncoder);
+				
+				
+				
+				ds.show();
+				
+			// Delete all rows with null values in category1 column
+			//Dataset<Row> dfs = ds.filter(ds.col("category1"). isNotNull());
+			// Delete all rows with null values in category2 column
+			//Dataset<Row> dfs2 = dfs.filter(dfs.col("category2"). isNotNull());
+			
+			
+			// Count all values grouped by "category1","category2", and
+			// Rename the resulting count column as count
+			//Dataset<Row> count = namesDS.groupBy("date").count().alias("count");
+			
+			
+			//System.out.println(dfs2);
+			// Ouputs the result to the folder "outputPath"
+			//count.toJavaRDD().saveAsTextFile(outputPath);
+			
+		    
+			//count.show((int)count.count());
+		    //closes the scanner 
+		    //count.toJavaRDD().saveAsTextFile(outputPath);
+			
+	}
+		  
+	    
+	  
+	 
+	 
+	  static void  ques1()
+	  
+	  {
+		  
+		// Input dir - should contain all input json files
+			String inputPath="history_english.json"; //Use absolute paths
+			// Ouput dir - this directory will be created by spark. Delete this directory between each run
+			String outputPath="output";   //Use absolute paths
+			
+
+			Logger.getLogger("org").setLevel(Level.OFF);
+			Logger.getLogger("akka").setLevel(Level.OFF);
+
+			StructType obj = new StructType();
+			obj = obj.add("category1", DataTypes.StringType, true); // false => not nullable
+			obj = obj.add("category2", DataTypes.StringType, true); // false => not nullable
+			ExpressionEncoder<Row> tupleRowEncoder = RowEncoder.apply(obj);
+
+			SparkSession sparkSession = SparkSession.builder()
+					.appName("Entity Count")		//Name of application
+					.master("local")								//Run the application on local node
+					.config("spark.sql.shuffle.partitions","2")		//Number of partitions
+					.getOrCreate();
+
+			//String str2="Pilgrims";
+			//String str= "Asclepieion" ;
+			
+			
+			// Read multi-line JSON from input files to dataset
+			Dataset<Row> inputDataset=sparkSession.read().option("multiLine", true).json(inputPath);
+			
+			Dataset<Row> count=null;
+			int flag=1;
+			
+			FileInputStream fis = null;
+				
+			try {
+				fis = new FileInputStream("entities.txt");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}       
+			Scanner sc=new Scanner(fis);    //file to be scanned  
+			//returns true if there is another line to read  
+			
+			
+			while(sc.hasNextLine())  
+			{  
+			String str=sc.nextLine();      //returns the line that was skipped  
+		
+			
+			Dataset<Row> ID = inputDataset.filter(inputDataset.col("description").contains(str)); 
+			
+			//Dataset<Row> ID2 = ID.select(lit("Greece").as("lit_value1"),col("category1"),col("category2"));
+
+			
+			// Apply the map function to extract category1-category2
+			Dataset<Row> ds = ID.map(new MapFunction<Row,Row>(){
+				public Row call(Row row) throws Exception{
+					String category1 =((String)row.getAs("category1"));
+					String category2 = ((String)row.getAs("category2"));
+					return RowFactory.create(category1,category2);
+				}
+			}, tupleRowEncoder);
+			
+
+			// Delete all rows with null values in category1 column
+			Dataset<Row> dfs = ds.filter(ds.col("category1"). isNotNull());
+			// Delete all rows with null values in category2 column
+			Dataset<Row> dfs2 = dfs.filter(dfs.col("category2"). isNotNull());
+			
+			
+			Dataset<Row> ID2 = dfs2.withColumn("entity",functions.lit(str));
+			//ID2.show();
+			
+
+			// Count all values grouped by "category1","category2", and
+			// Rename the resulting count column as count
+			Dataset<Row> count_temp = ID2.groupBy("entity","category1","category2").count().alias("count");
+			
+			
+			//System.out.println(dfs2);
+			// Ouputs the result to the folder "outputPath"
+			//count.toJavaRDD().saveAsTextFile(outputPath);
+			
+			// Outputs the dataset to the standard output
+			if(flag==1)
+			{ 
+				count=count_temp;
+				flag=0;            
+			}
+			else
+			count=count.union(count_temp);
+			
+	         
+			}
+			count.show((int)count.count());
+			sc.close();     //closes the scanner 
+		    count.toJavaRDD().saveAsTextFile(outputPath);
+		  
+	  }
+	}
