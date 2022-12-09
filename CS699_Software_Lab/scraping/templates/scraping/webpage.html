@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    {% comment %} <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> {% endcomment %}
+
+    {% comment %} <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" /> {% endcomment %}
+
+    {% comment %} <link rel="stylesheet" href="style.css" /> {% endcomment %}
+	<script defer src="https://pyscript.net/alpha/pyscript.js" >
+    function myFunc() {
+      return "Please Wait..."
+    }
+  </script>
+
+
+    <title>Flight Price Comparator</title>
+
+    <py-env>
+        - matplotlib
+    </py-env>
+
+    <style>
+      
+    #body{
+      background-color: blanchedalmond;
+      background-image: url('https://previews.123rf.com/images/jchizhe/jchizhe1906/jchizhe190600005/124698136-white-plane-airplane-on-blue-pastel-color-background-with-copy-space-top-view-flat-lay-minimal-style.jpg');
+
+    }
+
+    #form {
+      text-align: center;
+  }
+
+
+  #sub {
+    text-align: center;
+    margin:auto;
+    font-size: 25px;
+  }
+
+  #paytm_print{
+
+   display:flex;
+   text-align: center;
+    margin:auto;
+    font-size: 25px;
+
+  }
+
+  #flipkart_print{
+
+    display:flex;
+    text-align: center;
+    margin:auto;
+    font-size: 25px;
+ 
+   }
+   #easemy_print{
+
+    display:flex;
+    text-align: center;
+    margin:auto;
+    font-size: 25px;
+ 
+   }
+
+  #sub2 {
+    text-align: center;
+    margin:auto;
+  }
+  #fromto{
+    font-size: 25px;
+  }
+  #dateyear{
+    font-size: 25px;
+  }
+  
+     
+     </style>
+
+</head>
+
+
+
+
+
+
+<body id= "body">
+
+
+<div id="main">
+    <h1 style="text-align: center; font-size: 50px; " >Flight Price Comparator  </h1>
+
+    <form method="GET" id="form"  > 
+
+        <div id="fromto"> From : 
+
+                <select name="from" id="from" style="font-size: 20px;">
+                  <option value="BOM-Mumbai">MUMBAI</option>
+                  <option value="DEL-Delhi">DELHI</option>
+                  <option value="CCU-Kolkata">KOLKATA</option>
+                  <option value="BLR-Bengaluru">BANGLORE</option>
+                  <option value="MAA-Chennai">CHENNAI</option>
+                  <option value="PNQ-Pune">PUNE</option>
+                  <option value="LKO-Lucknow">LUCKNOW</option>
+                </select>
+
+                &nbsp &nbsp &nbsp To :    
+                <select name="to" id="to" style="font-size: 20px;">
+                    <option value="DEL-Delhi">DELHI</option>
+                    <option value="BOM-Mumbai">MUMBAI</option>
+                    <option value="CCU-Kolkata">KOLKATA</option>
+                    <option value="BLR-Bengaluru">BANGLORE</option>
+                    <option value="MAA-Chennai">CHENNAI</option>
+                    <option value="PNQ-Pune">PUNE</option>
+                    <option value="LKO-Lucknow">LUCKNOW</option>
+                  </select>
+
+        </div>  
+        <br>
+        <br>
+        <div id="dateyear">
+                  Date :
+
+                  <select name="date" id="date" style="font-size: 20px;">
+                    <option value="01">1</option>
+                    <option value="02">2</option>
+                    <option value="03">3</option>
+                    <option value="04">4</option>
+                    <option value="05">5</option>
+                    <option value="06">6</option>
+                    <option value="07">7</option>
+                    <option value="08">8</option>
+                    <option value="09">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
+                  </select>
+
+                  &nbsp&nbsp&nbsp Month : 
+                  <select name="month" id="month" style="font-size: 20px;">
+                    <option value="01">January</option>
+                    <option value="02">February</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                  </select>
+
+                  &nbsp&nbsp&nbsp Year :
+                   <select name="year" id="year" style="font-size: 20px;">
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                  </select>
+
+
+                  &nbsp&nbsp&nbsp View Site :
+                  <select name="view_site" id="view_site" style="font-size: 20px;">
+                    <option value="yes">YES</option>
+                    <option value="no">NO</option>
+                  </select>
+
+
+
+              </div>
+
+            
+{% comment %} 
+            <input type="text" id="city" value="{{ request.GET.city }}"  name="city"/> {% endcomment %}
+
+
+        <br><br>
+
+      
+      
+        <input type="submit" value="Submit" id="sub" style="cursor:pointer;"  onclick="getElementById('wel').innerHTML='Please Wait....' " /> 
+    
+         <h3 id="wel"></h3> 
+        
+        
+    </form>
+       
+
+    {% if result %}
+        
+        <div id="paytm_print">
+         
+        <h5>Paytm - Price : &nbsp₹</h5> 
+        <h5 id= "p_price" >{{ result.paytm_price }}</h5>
+
+        <h5>&nbsp&nbsp&nbsp Airlines : &nbsp </h5> 
+        <h5 id= "p_airlines">{{ result.paytm_airlines }}</h5>
+          
+        </div>  
+
+        <div id="flipkart_print">
+         
+          <h5>Flipkart - Price : &nbsp</h5> 
+          <h5 id= "f_price" >{{ result.flipkart_price }}</h5>
+  
+          <h5>&nbsp&nbsp&nbsp Airlines : &nbsp </h5> 
+          <h5 id= "f_airlines">{{ result.flipkart_airlines }}</h5>
+            
+          </div>
+
+          <div id="easemy_print">
+         
+            <h5>EasemyTrip - Price : &nbsp₹</h5> 
+            <h5 id= "e_price" >{{ result.easemy_price }}</h5>
+    
+            <h5>&nbsp&nbsp&nbsp Airlines : &nbsp </h5> 
+            <h5 id= "e_airlines">{{ result.easemy_airlines }}</h5>
+
+            <h5 id= "p_site" hidden> {{ result.p_url }}</h5>
+            <h5 id= "f_site" hidden> {{ result.p_url }}</h5>
+            <h5 id= "e_site" hidden> {{ result.p_url }}</h5>
+
+            <h5 id= "loc1" hidden> {{ result.loc1 }}</h5>
+            <h5 id= "loc2" hidden> {{ result.loc2 }}</h5>
+            <h5 id= "date1" hidden> {{ result.date1 }}</h5>
+
+            </div> 
+
+        <py-script id="sub2">
+          
+            import matplotlib.pyplot as plt
+            import re 
+
+
+
+            p_price=document.getElementById("p_price").innerHTML
+            f_price=document.getElementById("f_price").innerHTML
+            e_price=document.getElementById("e_price").innerHTML
+            p_airlines=document.getElementById("p_airlines").innerHTML
+            f_airlines=document.getElementById("f_airlines").innerHTML
+            e_airlines=document.getElementById("e_airlines").innerHTML
+
+            p_url=document.getElementById("p_site").innerHTML
+            f_url=document.getElementById("f_site").innerHTML
+            e_url=document.getElementById("e_site").innerHTML
+
+
+            loc1=document.getElementById("loc1").innerHTML
+            loc2=document.getElementById("loc2").innerHTML
+            date1=document.getElementById("date1").innerHTML
+
+
+            #print(p_price, f_price, e_price, p_airlines , f_airlines)
+          
+            f_price=f_price[1:]
+
+            p_price=int(re.sub(",","",p_price))
+            f_price=int(re.sub(",","",f_price))
+            e_price=int(re.sub(",","",e_price))
+           
+            prices = []
+            prices.append(p_price)
+            prices.append(f_price)
+            prices.append(e_price)
+
+
+            temp="for" + loc1 +" to " + loc2 +" on " + date1
+            
+
+            if p_price==e_price and e_price==f_price and f_price==p_price :
+              print("Prices" + temp + "are same at Paytm, Flipkart, EasemyTrip of ₹" + str(p_price))
+              print("To book, visit this site:" , p_url, ".   ")
+
+            elif min(prices)==p_price :
+              print("Cheapest flight price " + temp + " available at Paytm at price of ₹" + str(p_price))
+              print("To book, visit this site:" , p_url, ".   ")
+
+            elif min(prices)==f_price :
+              print("Cheapest flight price " + temp + " available at Flipkart at price of ₹" + str(f_price))
+              print("To book, visit this site:" , f_url, ".   ")
+
+            elif min(prices)==e_price :
+              print("Cheapest flight price " + temp + " available at EasemyTrip at price of ₹" + str(e_price))
+              print("To book, visit this site:" , e_url,".  ")
+
+
+
+
+
+
+            {% comment %} fig, ax = plt.subplots() {% endcomment %}
+            fig = plt.figure()
+
+            price = [p_price, f_price, e_price]
+            site = ["Paytm", "Flipkart", "EasemyTrip"]
+            col=['green' , 'yellow' , 'pink']
+            
+            
+            
+            plt.bar(site, price , color = col )
+            {% comment %} plt.fig(transparent=True) {% endcomment %}
+            plt.xlabel('Site')
+            plt.ylabel('Price in INR')
+            plt.title('Price vs Site')
+
+            plt.ylim(top=None , bottom=2000) 
+
+            
+            fig 
+
+        </py-script>
+        
+    {% endif %}     
+
+   
+
+</div>
+
+<footer style="text-align: center;
+margin:auto;
+font-size: 25px;">
+
+  <br><br><br>
+<p>
+  Team Member : Sandeep Kumar (22M0790) and Prathamesh Yeole (22M0795) 
+</p>
+<br> 
+</footer>
+
+</body>
+</html>
