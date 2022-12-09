@@ -5,6 +5,12 @@ Link - https://github.com/sahasrarjn/cs725-2022-assignment
 
 More Details at - https://archive.ics.uci.edu/ml/datasets/yearpredictionmsd
 
+Kaggle Link - 
+
+Regression - https://www.kaggle.com/competitions/cs725-2022-assignment-regression
+
+Classification - https://www.kaggle.com/competitions/cs-725-autumn-2022-assignment-classification
+
 
 
 CS 725 (Autumn 2022): Programming Assignment
