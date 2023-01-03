@@ -7,4 +7,40 @@ Write a spark program that implements the following four queries as separate fun
 As above, given a file with entities, one per line.   Assume the entities are given in a file called entities.
 Find the count of all instances in each  year (consider only events with granularity year)
 For each year, find the rank of the year if sorted in descending order by number of events in the year.
-In all cases the result should be computed using spark and output to console as in the template program
+In all cases the result should be computed using spark and output to console as in the template program.
+
+
+Setting Up Spark on Eclipse
+
+Download spark-hadoop jars using the following link and expand to a folder:
+ spark-3.3.0-bin-hadoop3.tgz
+Download WordCount.java from the moodle course page
+Instructions below are for doing the assignment in Java.  If you wish to do it in PySpark you can follow instructions here:
+Create a new eclipse Java project
+Import all the jars in the Spark jars folder into eclipse (select all the jar files) as follows: 
+ Right click on the project and select: Properties > Build Path > Libraries :  Add External Jars 
+ Browse to the folder with hadoop jars and select all the jars in it 
+Right click on project and select: 
+Run As > Run Configurations > Java Application > New_configuration
+then choose the JRE tab, click on the Alternate JRE button, and then select java 8 or later version of Java. 
+ If it's  not present, then install Java 8 or later version (we use 8 in this page,
+ but you can replace 8 by the later version that you are using), and then in the above 
+ choose Add, and add  /usr/lib/jvm/java-8-openjdk-amd64
+Make sure to check the box for java-8-openjdk so it gets used for compilation.  
+Then go back to your project Run As > Run Configurations and make sure to choose New Configuration for it.
+Go to Run Configurations, and go to Classpath tab
+Choose Advanced > JRE System Library and click on Next 
+Then choose java-8-openjdk
+Create your required Java files and build them
+You can run your spark program as follows:
+from Eclipse directly, OR 
+run spark-submit from the command line: 
+Export to a jar file with any name you choose  The jar file gets created in the workspace folder of eclipse.
+NOTE: you must export each time you update a file
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 
+Note that the JAVA_HOME above can be set from your .bashrc, so you don't need to do it each time
+spark-3.3.0-bin-hadoop-3/bin/spark-submit --class WordCount --master local[4] ~/workspace2/simple-project-1.0.jar 
+WHERE  WordCount is the class you want to run, and simple-project-1.0.jar is the jar file you created when you exported to the jar file 
+NOTE: Depending on how you created the jar file, you may need to add a folder path to SimpleApp in the command above.  For example, if your project is lab6, you may need to use lab6.SimpleApp
+Some of the Spark sample files require an input file.  Preferably give a full path, or put it in the directory from where you run the spark-submit command
+If your program has any output files, it will put them in a directory.  Make sure that the directory does not exist, by deleting it between each run.  You can set options to overwrite but by default it will give an error.
